@@ -1,7 +1,7 @@
 #include <Arduino.h>
 
-bool isRaining();
-float readTemperature();
+bool isRaining(const int sensorPin);
+float readTemperature(const int sensorPin);
 
 const int temperatureSensorPin = 0;
 const int rainSensorPin = 2;
@@ -11,16 +11,16 @@ void setup() {
 }
 
 void loop() {
-	Serial.println(readTemperature());
-	Serial.println(isRaining());
+	Serial.println(readTemperature(temperatureSensorPin));
+	Serial.println(isRaining(rainSensorPin));
 	delay(1000);
 }
 
-bool isRaining() {
-	return analogRead(rainSensorPin) < 400;
+bool isRaining(const int sensorPin) {
+	return analogRead(sensorPin) < 400;
 }
 
-float readTemperature() {
-	float temperatura = analogRead(temperatureSensorPin) / 1024.0 * 500;
+float readTemperature(const int sensorPin) {
+	float temperatura = analogRead(sensorPin) / 1024.0 * 500;
 	return temperatura - 277;
 }
