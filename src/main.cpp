@@ -1,5 +1,8 @@
+#include <Arduino.h>
+
 const int pinTermometru = 0;
 const int pinCzujnikaOpadow = 2;
+
 void setup() {
 Serial.begin(9600);
 
