@@ -1,31 +1,26 @@
 #include <Arduino.h>
 
-const int pinTermometru = 0;
-const int pinCzujnikaOpadow = 2;
+bool isRaining();
+float readTemperature();
+
+const int temperatureSensorPin = 0;
+const int rainSensorPin = 2;
 
 void setup() {
-Serial.begin(9600);
-
-}
-
-bool badanie_opadow(){
-bool Deszcz;
-if(analogRead(pinCzujnikaOpadow)<400)
-    Deszcz = 1;
-else
-    Deszcz = 0;
-return Deszcz;
-}
-
-float odczyt_temperatury(){
-float temperatura;
-temperatura = (analogRead(pinTermometru)/1024.0)*500;
-temperatura = temperatura - 277;
-return temperatura;
+	Serial.begin(9600);
 }
 
 void loop() {
-Serial.println(odczyt_temperatury());
-Serial.println(badanie_opadow());
-delay(1000);
+	Serial.println(readTemperature());
+	Serial.println(isRaining());
+	delay(1000);
+}
+
+bool isRaining() {
+	return analogRead(rainSensorPin) < 400;
+}
+
+float readTemperature() {
+	float temperatura = analogRead(temperatureSensorPin) / 1024.0 * 500;
+	return temperatura - 277;
 }
