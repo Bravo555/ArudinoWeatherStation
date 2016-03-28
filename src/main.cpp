@@ -4,6 +4,7 @@
 #include <BH1750.h>
 #include <Adafruit_MPL115A2.h>
 
+void printWeatherData();
 bool isRaining(const int sensorPin);
 float readTemperature(const int sensorPin);
 
@@ -13,6 +14,11 @@ Adafruit_MPL115A2 barometer;
 const int temperatureSensorPin = 0;
 const int rainSensorPin = 2;
 
+float temperature;
+bool rainStatus;
+int lightLevel;
+float pressure;
+
 void setup() {
 	Serial.begin(9600);
 	lcd.begin(20, 4);
@@ -20,11 +26,20 @@ void setup() {
 }
 
 void loop() {
-	float temperature = readTemperature(temperatureSensorPin);
-	bool rainStatus = isRaining(rainSensorPin);
-	int lightLevel = lightMeter.readLightLevel();
-	float pressure = barometer.getPressure();
+	temperature = readTemperature(temperatureSensorPin);
+	rainStatus = isRaining(rainSensorPin);
+	lightLevel = lightMeter.readLightLevel();
+	pressure = barometer.getPressure();
 
+	printWeatherData();
+
+	Serial.println(temperature);
+	Serial.println(rainStatus);
+	delay(1000);
+}
+
+void printWeatherData()
+{
 	lcd.home();
 
 	lcd.print("Temperature: ");
@@ -43,10 +58,6 @@ void loop() {
 	lcd.print("Pressure: ");
 	lcd.print(pressure);
 	lcd.print("kPa");
-
-	Serial.println(temperature);
-	Serial.println(rainStatus);
-	delay(1000);
 }
 
 bool isRaining(const int sensorPin) {
