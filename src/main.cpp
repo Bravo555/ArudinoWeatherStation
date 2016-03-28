@@ -2,12 +2,14 @@
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 #include <BH1750.h>
+#include <Adafruit_MPL115A2.h>
 
 bool isRaining(const int sensorPin);
 float readTemperature(const int sensorPin);
 
 LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
 BH1750 lightMeter;
+Adafruit_MPL115A2 barometer;
 const int temperatureSensorPin = 0;
 const int rainSensorPin = 2;
 
@@ -21,6 +23,7 @@ void loop() {
 	float temperature = readTemperature(temperatureSensorPin);
 	bool rainStatus = isRaining(rainSensorPin);
 	int lightLevel = lightMeter.readLightLevel();
+	float pressure = barometer.getPressure();
 
 	lcd.home();
 
@@ -35,6 +38,11 @@ void loop() {
 	lcd.print("Light: ");
 	lcd.print(lightLevel);
 	lcd.print("lx");
+
+	lcd.setCursor(0, 3);
+	lcd.print("Pressure: ");
+	lcd.print(pressure);
+	lcd.print("kPa");
 
 	Serial.println(temperature);
 	Serial.println(rainStatus);
