@@ -3,7 +3,8 @@
 #include <LiquidCrystal_I2C.h>
 #include <BH1750.h>
 #include <Adafruit_MPL115A2.h>
-#include "sensors.hpp"
+#include "sensors/TemperatureSensor.hpp"
+#include "sensors/RainStatusSensor.hpp"
 
 LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
 BH1750 lightMeter;
