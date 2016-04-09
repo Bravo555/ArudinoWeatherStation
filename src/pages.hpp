@@ -1,5 +1,25 @@
 #include "sensorData.hpp"
 
+const int rightButtonPin=1, leftButtonPin=2;
+
+void screenPrinting()
+{
+	short int screenPage = 1;
+	while(true)
+	{
+		if(digitalRead(rightButtonPin)==LOW)
+			screenPage++;
+		if(digitalRead(leftButtonPin)==LOW)
+			screenPage--;
+		if(screenPage==0)
+			break;
+		switch(screenPage)
+		{
+
+		}
+	}
+}
+
 void overviewPage()
 {
 	lcd.home();
