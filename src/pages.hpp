@@ -15,6 +15,7 @@ void screenPrinting()
 			break;
 		switch(screenPage)
 		{
+<<<<<<< HEAD
 			case 1:
 
 			break;
@@ -22,6 +23,9 @@ void screenPrinting()
 			case 2:
 
 			break;
+=======
+
+>>>>>>> origin/master
 		}
 	}
 }
