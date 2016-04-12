@@ -1,6 +1,6 @@
 #include "sensorData.hpp"
 
-const int rightButtonPin=1, leftButtonPin=2;
+const int rightButtonPin = 1, leftButtonPin = 2;
 short int screenPage = 0;
 
 void overviewPage()
@@ -13,6 +13,15 @@ void overviewPage()
 	lcd.setCursor(0, 1);
 	lcd.print("Czy pada: ");
 	lcd.print(rainStatus ? "tak" : "nie");
+
+	lcd.setCursor(14,1);
+	tmElements_t tm;
+	lcd.print(tm.Hour);
+	lcd.print(":");
+	lcd.print(tm.Minute);
+	lcd.print(":");
+	lcd.print(tm.Second);
+	lcd.print(":");
 
 	lcd.setCursor(0, 2);
 	lcd.print("Swiatlo: ");
@@ -36,7 +45,7 @@ void screenPrinting()
 			case 0:
 				overviewPage();
 			break;
-			case 2:
+			case 1:
 
 			break;
 		}

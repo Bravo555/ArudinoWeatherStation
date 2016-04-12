@@ -5,6 +5,8 @@
 #include <Adafruit_MPL115A2.h>
 #include "sensors/TemperatureSensor.hpp"
 #include "sensors/RainStatusSensor.hpp"
+#include <Time.h>
+#include <DS1307RTC.h>
 
 LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
 BH1750 lightMeter;
@@ -16,7 +18,6 @@ float temperature;
 bool rainStatus;
 int lightLevel;
 float pressure;
-
 void getSensorData()
 {
 	temperature = temperatureSensor.readTemperature();
