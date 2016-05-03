@@ -14,29 +14,30 @@ void overviewPage()
 	lcd.setCursor(0, 2);
 	lcd.print("Swiatlo: ");
 	lcd.print(lightLevel);
-	lcd.print("lx");
+	lcd.print(" lx");
 
 	lcd.setCursor(0, 3);
 	lcd.print("Cisnienie: ");
-	lcd.print(pressure);
-	lcd.print("kPa");
+	lcd.print(pressure * 10);
+	lcd.print("hPa");
 }
 
 void screenPrinting()
 {
-		if(digitalRead(rightButtonPin)==LOW)
-			screenPage++;
-		if(digitalRead(leftButtonPin)==LOW)
-			screenPage--;
-		switch(screenPage)
-		{
-			case 0:
-				overviewPage();
-			break;
-			case 1:
+	lcd.clear();
+	if(digitalRead(rightButtonPin)==LOW)
+		screenPage++;
+	if(digitalRead(leftButtonPin)==LOW)
+		screenPage--;
+	switch(screenPage)
+	{
+		case 0:
+			overviewPage();
+		break;
+		case 1:
 
-			break;
-		}
+		break;
+	}
 }
 
 String getTime(tmElements_t tm)
