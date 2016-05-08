@@ -16,8 +16,10 @@ RainStatusSensor rainStatusSensor(2);
 
 float temperature;
 bool rainStatus;
-int lightLevel;
+unsigned long lightLevel;
 float pressure;
+tmElements_t tm;
+
 void getSensorData()
 {
 	temperature = temperatureSensor.readTemperature();
