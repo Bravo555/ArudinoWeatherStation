@@ -27,3 +27,11 @@ void getSensorData()
 	lightLevel = lightMeter.readLightLevel();
 	pressure = getPressure() * 1000000;
 }
+
+void initSensors()
+{
+	Serial.begin(9600);
+	lcd.begin(20, 4);
+	barometer.begin();
+	lightMeter.begin();
+}
