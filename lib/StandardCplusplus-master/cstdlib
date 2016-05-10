@@ -57,7 +57,7 @@ namespace std{
 	using ::wcstombs;
 #endif
 
-	inline long abs(long i){
+	inline long sabs(long i){
 		return labs(i);
 	}
 
@@ -70,4 +70,3 @@ namespace std{
 
 
 #endif
-
