@@ -20,12 +20,14 @@ unsigned long lightLevel;
 tmElements_t tm;
 double pressure;
 
+double getPressure(float altitude);
+
 void getSensorData()
 {
 	temperature = temperatureSensor.readTemperature();
 	rainStatus = rainStatusSensor.readRainStatus();
 	lightLevel = lightMeter.readLightLevel();
-	pressure = getPressure() * 1000000;
+	pressure = getPressure(406.776);	// wysokość zhardcode'owana dla Nowej Rudy, DO ZMIANY!
 }
 
 void initSensors()
@@ -34,4 +36,32 @@ void initSensors()
 	lcd.begin(20, 4);
 	barometer.begin();
 	lightMeter.begin();
+}
+
+double getPressure(float altitude)
+{
+	char status;
+	double temperature, pressure;
+
+	status = barometer.startTemperature();
+	if (status != 0)
+    {
+    	delay(status);
+
+		status = barometer.getTemperature(temperature);
+		if(status != 0)
+		{
+			delay(status);
+
+			status = barometer.startPressure(3);
+			if(status != 0)
+			{
+				delay(status);
+
+				status = barometer.getPressure(pressure, temperature);
+				if(status != 0)
+					return barometer.sealevel(pressure, altitude);
+			}
+		}
+	}
 }
