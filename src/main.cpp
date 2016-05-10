@@ -14,7 +14,5 @@ void loop() {
 	getSensorData();
 	screenPrinting();
 
-	Serial.println(temperature);
-	Serial.println(rainStatus);
 	delay(1000);
 }
