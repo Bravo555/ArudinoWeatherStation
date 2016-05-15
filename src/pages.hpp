@@ -2,7 +2,7 @@
 
 String getTime(tmElements_t);
 
-const int rightButtonPin = 1, leftButtonPin = 2;
+const int rightButtonPin = 4, leftButtonPin = 5;
 short int screenPage = 0;
 
 void overviewPage()
@@ -11,14 +11,17 @@ void overviewPage()
 
 	lcd.print(getTime(tm));
 
+	lcd.setCursor(0,1);
+	lcd.print(temperature);
+
 	lcd.setCursor(0, 2);
 	lcd.print("Swiatlo: ");
 	lcd.print(lightLevel);
 	lcd.print(" lx");
 
 	lcd.setCursor(0, 3);
-	lcd.print("Cisnienie: ");
-	lcd.print(pressure * 10);
+	lcd.print("Cisn: ");
+	lcd.print(pressure);
 	lcd.print("hPa");
 }
 
@@ -43,7 +46,7 @@ void screenPrinting()
 String getTime(tmElements_t tm)
 {
 	String hour, min, sec;
-
+RTC.read(tm);
 	if(tm.Hour < 10)
 		hour = "0" + String(tm.Hour);
 	else
