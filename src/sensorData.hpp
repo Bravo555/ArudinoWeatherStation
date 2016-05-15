@@ -11,7 +11,7 @@
 LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
 BH1750 lightMeter;
 SFE_BMP180 barometer;
-TemperatureSensor temperatureSensor(0);
+TemperatureSensor temperatureSensor(1);
 RainStatusSensor rainStatusSensor(2);
 
 float temperature;
