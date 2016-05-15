@@ -64,4 +64,5 @@ double getPressure(float altitude)
 			}
 		}
 	}
+	return 0;
 }
