@@ -52,12 +52,12 @@ RTC.read(tm);
 	else
 		hour = String(tm.Hour);
 
-	if(tm.Hour < 10)
+	if(tm.Minute < 10)
 		min = "0" + String(tm.Minute);
 	else
 		min = String(tm.Minute);
 
-	if(tm.Hour < 10)
+	if(tm.Second < 10)
 		sec = "0" + String(tm.Second);
 	else
 		sec = String(tm.Second);
