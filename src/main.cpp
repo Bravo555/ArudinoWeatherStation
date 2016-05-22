@@ -7,6 +7,9 @@ void setup() {
 	initSensors();
 	pinMode(rightButtonPin, INPUT_PULLUP);
 	pinMode(leftButtonPin, INPUT_PULLUP);
+	pinMode(upButtonPin, INPUT_PULLUP);
+	pinMode(downButtonPin, INPUT_PULLUP);
+	pinMode(selectButtonPin, INPUT_PULLUP);
 }
 
 void loop() {
