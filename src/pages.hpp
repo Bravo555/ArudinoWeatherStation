@@ -2,7 +2,7 @@
 
 String getTime(tmElements_t);
 
-const int rightButtonPin = 4, leftButtonPin = 5;
+const int rightButtonPin = 4, leftButtonPin = 5, upButtonPin = 6,downButtonPin = 7,selectButtonPin = 8;
 short int screenPage = 0;
 
 void overviewPage()
@@ -25,6 +25,24 @@ void overviewPage()
 	lcd.print("hPa");
 }
 
+int altitudeSet()
+{
+		lcd.setCursor(0,0);
+		lcd.print("USTAW WYSOKOSC");
+		lcd.setCursor(0, 1);
+		lcd.print("BEZWZGLEDNA:");
+		lcd.print(altitude);
+		if(digitalRead(selectButtonPin) == LOW)
+		{
+		while(digitalRead(selectButtonPin) != LOW)
+		{
+		if(digitalRead(upButtonPin) == LOW)
+			altitude += 10;
+		if(digitalRead(downButtonPin) == LOW)
+			altitude -= 10;
+		}}
+}
+
 void screenPrinting()
 {
 	lcd.clear();
@@ -39,6 +57,9 @@ void screenPrinting()
 		break;
 		case 1:
 
+		break;
+		case 2:
+			altitudeSet();
 		break;
 	}
 }

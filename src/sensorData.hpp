@@ -14,7 +14,7 @@ SFE_BMP180 barometer;
 TemperatureSensor temperatureSensor(1);
 RainStatusSensor rainStatusSensor(2);
 
-float temperature;
+float temperature, altitude = 200;
 bool rainStatus;
 unsigned long lightLevel;
 tmElements_t tm;
@@ -27,7 +27,7 @@ void getSensorData()
 	temperature = temperatureSensor.readTemperature();
 	rainStatus = rainStatusSensor.readRainStatus();
 	lightLevel = lightMeter.readLightLevel();
-	pressure = getPressure(406.776);	// wysokość zhardcode'owana dla Nowej Rudy, DO ZMIANY!
+	pressure = getPressure(altitude);	// wysokość zhardcode'owana dla Nowej Rudy, DO ZMIANY!
 }
 
 void initSensors()
