@@ -11,9 +11,10 @@
 void screenPrinting();
 void overviewPage();
 int altitudeSet();
-void initSensors();
-void getSensorData();
 String getTime(tmElements_t);
+void initSensors();
+void initButtons();
+void getSensorData();
 
 const int rightButtonPin = 4, leftButtonPin = 5, upButtonPin = 6, downButtonPin = 7, selectButtonPin = 8;
 short int screenPage = 0;
@@ -31,14 +32,11 @@ tmElements_t tm;
 double pressure;
 
 void setup() {
-	lcd.setCursor(0,0);
 	lcd.print("LOADING");
+
+	lcd.begin(20, 4);
 	initSensors();
-	pinMode(rightButtonPin, INPUT_PULLUP);
-	pinMode(leftButtonPin, INPUT_PULLUP);
-	pinMode(upButtonPin, INPUT_PULLUP);
-	pinMode(downButtonPin, INPUT_PULLUP);
-	pinMode(selectButtonPin, INPUT_PULLUP);
+	initButtons();
 }
 
 void loop() {
@@ -146,8 +144,6 @@ void getSensorData()
 
 void initSensors()
 {
-	Serial.begin(9600);
-	lcd.begin(20, 4);
 	barometer.begin();
 	lightMeter.begin();
 }
@@ -179,4 +175,13 @@ double getPressure(float altitude)
 		}
 	}
 	return 0;
+}
+
+void initButtons()
+{
+	pinMode(rightButtonPin, INPUT_PULLUP);
+	pinMode(leftButtonPin, INPUT_PULLUP);
+	pinMode(upButtonPin, INPUT_PULLUP);
+	pinMode(downButtonPin, INPUT_PULLUP);
+	pinMode(selectButtonPin, INPUT_PULLUP);
 }
