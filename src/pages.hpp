@@ -2,7 +2,7 @@
 
 String getTime(tmElements_t);
 
-const int rightButtonPin = 4, leftButtonPin = 5, upButtonPin = 6,downButtonPin = 7,selectButtonPin = 8;
+const int rightButtonPin = 4, leftButtonPin = 5, upButtonPin = 6, downButtonPin = 7, selectButtonPin = 8;
 short int screenPage = 0;
 
 void overviewPage()
@@ -27,29 +27,33 @@ void overviewPage()
 
 int altitudeSet()
 {
-		lcd.setCursor(0,0);
-		lcd.print("USTAW WYSOKOSC");
-		lcd.setCursor(0, 1);
-		lcd.print("BEZWZGLEDNA:");
-		lcd.print(altitude);
-		if(digitalRead(selectButtonPin) == LOW)
-		{
+	lcd.setCursor(0,0);
+	lcd.print("USTAW WYSOKOSC");
+	lcd.setCursor(0, 1);
+	lcd.print("BEZWZGLEDNA:");
+	lcd.print(altitude);
+
+	if(digitalRead(selectButtonPin) == LOW)
+	{
 		while(digitalRead(selectButtonPin) != LOW)
 		{
-		if(digitalRead(upButtonPin) == LOW)
-			altitude += 10;
-		if(digitalRead(downButtonPin) == LOW)
-			altitude -= 10;
-		}}
+			if(digitalRead(upButtonPin) == LOW)
+				altitude += 10;
+			if(digitalRead(downButtonPin) == LOW)
+				altitude -= 10;
+		}
+	}
 }
 
 void screenPrinting()
 {
 	lcd.clear();
+
 	if(digitalRead(rightButtonPin)==LOW)
 		screenPage++;
 	if(digitalRead(leftButtonPin)==LOW)
 		screenPage--;
+
 	switch(screenPage)
 	{
 		case 0:
@@ -67,7 +71,8 @@ void screenPrinting()
 String getTime(tmElements_t tm)
 {
 	String hour, min, sec;
-RTC.read(tm);
+
+	RTC.read(tm);
 	if(tm.Hour < 10)
 		hour = "0" + String(tm.Hour);
 	else
