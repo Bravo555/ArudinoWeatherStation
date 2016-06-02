@@ -139,7 +139,7 @@ void getSensorData()
 	temperature = temperatureSensor.readTemperature();
 	rainStatus = rainStatusSensor.readRainStatus();
 	lightLevel = lightMeter.readLightLevel();
-	pressure = getPressure(altitude);	// wysokość zhardcode'owana dla Nowej Rudy, DO ZMIANY!
+	pressure = getPressure(altitude);
 }
 
 void initSensors()
