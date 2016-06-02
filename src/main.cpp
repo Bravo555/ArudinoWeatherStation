@@ -1,18 +1,14 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
-#include <BH1750.h>
-#include "sensors/TemperatureSensor.hpp"
-#include "sensors/RainStatusSensor.hpp"
 #include <Time.h>
 #include <DS1307RTC.h>
-#include <SFE_BMP180.h>
+#include "SensorManager.hpp"
 
 void screenPrinting();
 void overviewPage();
 int altitudeSet();
 String getTime(tmElements_t);
-void initSensors();
 void initButtons();
 void getSensorData();
 
@@ -20,10 +16,7 @@ const int rightButtonPin = 4, leftButtonPin = 5, upButtonPin = 6, downButtonPin 
 short int screenPage = 0;
 
 LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
-BH1750 lightMeter;
-SFE_BMP180 barometer;
-TemperatureSensor temperatureSensor(1);
-RainStatusSensor rainStatusSensor(2);
+SensorManager sensorManager;
 
 float temperature, altitude = 200;
 bool rainStatus;
@@ -35,7 +28,7 @@ void setup() {
 	lcd.print("LOADING");
 
 	lcd.begin(20, 4);
-	initSensors();
+	sensorManager.init();
 	initButtons();
 }
 
@@ -136,45 +129,10 @@ double getPressure(float altitude);
 
 void getSensorData()
 {
-	temperature = temperatureSensor.readTemperature();
-	rainStatus = rainStatusSensor.readRainStatus();
-	lightLevel = lightMeter.readLightLevel();
-	pressure = getPressure(altitude);
-}
-
-void initSensors()
-{
-	barometer.begin();
-	lightMeter.begin();
-}
-
-double getPressure(float altitude)
-{
-	char status;
-	double temperature, pressure;
-
-	status = barometer.startTemperature();
-	if (status != 0)
-    {
-    	delay(status);
-
-		status = barometer.getTemperature(temperature);
-		if(status != 0)
-		{
-			delay(status);
-
-			status = barometer.startPressure(3);
-			if(status != 0)
-			{
-				delay(status);
-
-				status = barometer.getPressure(pressure, temperature);
-				if(status != 0)
-					return barometer.sealevel(pressure, altitude);
-			}
-		}
-	}
-	return 0;
+	temperature = sensorManager.getTemperature();
+	rainStatus = sensorManager.getRainStatus();
+	lightLevel = sensorManager.getLightLevel();
+	pressure = sensorManager.getPressure(altitude);
 }
 
 void initButtons()
