@@ -14,7 +14,7 @@ SFE_BMP180 barometer;
 TemperatureSensor temperatureSensor(1);
 RainStatusSensor rainStatusSensor(2);
 
-float temperature, altitude = 200;
+float temperature, altitude = 405;
 bool rainStatus;
 unsigned long lightLevel;
 tmElements_t tm;
