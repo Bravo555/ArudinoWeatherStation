@@ -25,23 +25,21 @@ void overviewPage()
 	lcd.print("hPa");
 }
 
-int altitudeSet()
+void altitudeSet()
 {
-	lcd.setCursor(0,0);
-	lcd.print("USTAW WYSOKOSC");
-	lcd.setCursor(0, 1);
-	lcd.print("BEZWZGLEDNA:");
-	lcd.print(altitude);
-
-	if(digitalRead(selectButtonPin) == LOW)
-	{
-		while(digitalRead(selectButtonPin) != LOW)
-		{
-			if(digitalRead(upButtonPin) == LOW)
-				altitude += 10;
-			if(digitalRead(downButtonPin) == LOW)
-				altitude -= 10;
-		}
+	while(true) {
+		if(digitalRead(upButtonPin)==LOW)
+			altitude += 10;
+		if(digitalRead(downButtonPin)==LOW)
+			altitude -= 10;
+		lcd.setCursor(0,0);
+		lcd.print("Ustaw wysokosc");
+		lcd.setCursor(0,1);
+		lcd.print("nad poziomem morza");
+		lcd.setCursor(0,2);
+		lcd.print(altitude);
+		if(digitalRead(selectButtonPin)==LOW)
+			break;
 	}
 }
 
