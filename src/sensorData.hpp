@@ -2,7 +2,6 @@
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 #include <BH1750.h>
-#include "sensors/TemperatureSensor.hpp"
 #include "sensors/RainStatusSensor.hpp"
 #include "sensors/RainSensor.hpp"
 #include <Time.h>
@@ -12,7 +11,6 @@
 LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
 BH1750 lightMeter;
 SFE_BMP180 barometer;
-TemperatureSensor temperatureSensor(1);
 RainStatusSensor rainStatusSensor(0);
 RainSensor rainSensor(2);
 
@@ -24,10 +22,11 @@ double pressure;
 short rainHeight;
 
 double getPressure(float altitude);
+double getTemperature();
 
 void getSensorData()
 {
-	temperature = temperatureSensor.readTemperature();
+	temperature = getTemperature();
 	rainStatus = rainStatusSensor.readRainStatus();
 	lightLevel = lightMeter.readLightLevel();
 	pressure = getPressure(altitude);
@@ -69,4 +68,14 @@ double getPressure(float altitude)
 		}
 	}
 	return 0;
+}
+
+double getTemperature()
+{
+	double T;
+    int pause;
+    pause = barometer.startTemperature();
+    delay(pause);
+    barometer.getTemperature(T);
+    return T;
 }
