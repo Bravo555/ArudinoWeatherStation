@@ -12,7 +12,7 @@ void overviewPage()
 	lcd.print(getTime(tm));
 
 	lcd.setCursor(0,1);
-	lcd.print(temperature);
+	lcd.print(String(rainHeight) + "mm");
 
 	lcd.setCursor(0, 2);
 	lcd.print("Swiatlo: ");

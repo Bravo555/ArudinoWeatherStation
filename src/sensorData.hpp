@@ -4,6 +4,7 @@
 #include <BH1750.h>
 #include "sensors/TemperatureSensor.hpp"
 #include "sensors/RainStatusSensor.hpp"
+#include "sensors/RainSensor.hpp"
 #include <Time.h>
 #include <DS1307RTC.h>
 #include <SFE_BMP180.h>
@@ -12,13 +13,15 @@ LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
 BH1750 lightMeter;
 SFE_BMP180 barometer;
 TemperatureSensor temperatureSensor(1);
-RainStatusSensor rainStatusSensor(2);
+RainStatusSensor rainStatusSensor(0);
+RainSensor rainSensor(2);
 
 float temperature, altitude = 405;
 bool rainStatus;
 unsigned long lightLevel;
 tmElements_t tm;
 double pressure;
+short rainHeight;
 
 double getPressure(float altitude);
 
@@ -28,6 +31,7 @@ void getSensorData()
 	rainStatus = rainStatusSensor.readRainStatus();
 	lightLevel = lightMeter.readLightLevel();
 	pressure = getPressure(altitude);	// wysokość zhardcode'owana dla Nowej Rudy, DO ZMIANY!
+	rainHeight = rainSensor.readRainHeight();
 }
 
 void initSensors()
