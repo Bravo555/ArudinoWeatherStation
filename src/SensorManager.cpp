@@ -6,9 +6,14 @@ void SensorManager::init()
 	lightMeter.begin();
 }
 
-float SensorManager::getTemperature()
+double SensorManager::getTemperature()
 {
-	return temperatureSensor.readTemperature();
+	double T;
+    int pause;
+    pause = barometer.startTemperature();
+    delay(pause);
+    barometer.getTemperature(T);
+    return T;
 }
 
 bool SensorManager::getRainStatus()
