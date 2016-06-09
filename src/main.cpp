@@ -7,7 +7,7 @@
 
 void screenPrinting();
 void overviewPage();
-int altitudeSet();
+void altitudeSet();
 String getTime(tmElements_t);
 void initButtons();
 void getSensorData();
@@ -18,7 +18,7 @@ short int screenPage = 0;
 LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
 SensorManager sensorManager;
 
-float temperature, altitude = 200;
+float temperature, altitude = 405;
 bool rainStatus;
 unsigned long lightLevel;
 tmElements_t tm;
@@ -36,7 +36,7 @@ void loop() {
 	getSensorData();
 	screenPrinting();
 
-	delay(1000);
+	delay(250);
 }
 
 void screenPrinting()
@@ -82,24 +82,19 @@ void overviewPage()
 	lcd.print("hPa");
 }
 
-int altitudeSet()
+void altitudeSet()
 {
-	lcd.setCursor(0,0);
-	lcd.print("USTAW WYSOKOSC");
-	lcd.setCursor(0, 1);
-	lcd.print("BEZWZGLEDNA:");
-	lcd.print(altitude);
+	if(digitalRead(upButtonPin)==LOW)
+		altitude += 10;
+	if(digitalRead(downButtonPin)==LOW)
+		altitude -= 10;
 
-	if(digitalRead(selectButtonPin) == LOW)
-	{
-		while(digitalRead(selectButtonPin) != LOW)
-		{
-			if(digitalRead(upButtonPin) == LOW)
-				altitude += 10;
-			if(digitalRead(downButtonPin) == LOW)
-				altitude -= 10;
-		}
-	}
+	lcd.setCursor(0,0);
+	lcd.print("Ustaw wysokosc");
+	lcd.setCursor(0,1);
+	lcd.print("nad poziomem morza");
+	lcd.setCursor(0,2);
+	lcd.print(altitude);
 }
 
 String getTime(tmElements_t tm)
