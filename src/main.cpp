@@ -11,6 +11,7 @@ void screenPrinting();
 void overviewPage();
 void altitudeSet();
 String getTime(tmElements_t);
+String make2digit(uint8_t number);
 void initButtons();
 void getSensorData();
 
@@ -145,25 +146,8 @@ void altitudeSet()
 
 String getTime(tmElements_t tm)
 {
-	String hour, min, sec;
-
 	RTC.read(tm);
-	if(tm.Hour < 10)
-		hour = "0" + String(tm.Hour);
-	else
-		hour = String(tm.Hour);
-
-	if(tm.Minute < 10)
-		min = "0" + String(tm.Minute);
-	else
-		min = String(tm.Minute);
-
-	if(tm.Second < 10)
-		sec = "0" + String(tm.Second);
-	else
-		sec = String(tm.Second);
-
-	return hour + ":" + min + ":" + sec;
+	return make2digit(tm.Hour) + ":" + make2digit(tm.Minute) + ":" + make2digit(tm.Second);
 }
 
 double getPressure(float altitude);
@@ -183,4 +167,12 @@ void initButtons()
 	pinMode(upButtonPin, INPUT_PULLUP);
 	pinMode(downButtonPin, INPUT_PULLUP);
 	pinMode(selectButtonPin, INPUT_PULLUP);
+}
+
+String make2digit(uint8_t number)
+{
+	if(number < 10)
+		return "0" + String(number);
+	else
+		return String(number);
 }
