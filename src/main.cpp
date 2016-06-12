@@ -11,6 +11,7 @@ void screenPrinting();
 void overviewPage();
 void altitudeSet();
 String getTime(tmElements_t);
+String getDate(tmElements_t);
 String make2digit(uint8_t number);
 void initButtons();
 void getSensorData();
@@ -41,6 +42,7 @@ void setup() {
 	sensorManager.init();
 	initButtons();
 	Serial.begin(9600);
+	setSyncProvider(RTC.get);
 
 	EEPROM_readAnything(0, altitude);
 }
@@ -106,7 +108,7 @@ void overviewPage()
 {
 	lcd.home();
 
-	lcd.print(getTime(tm));
+	lcd.print(getTime(tm) + "  " + getDate(tm));
 
 	lcd.setCursor(0,1);
 	lcd.print("Temp: ");
@@ -146,7 +148,6 @@ void altitudeSet()
 
 String getTime(tmElements_t tm)
 {
-	RTC.read(tm);
 	return make2digit(tm.Hour) + ":" + make2digit(tm.Minute) + ":" + make2digit(tm.Second);
 }
 
@@ -175,4 +176,10 @@ String make2digit(uint8_t number)
 		return "0" + String(number);
 	else
 		return String(number);
+}
+
+String getDate(tmElements_t)
+{
+	RTC.read(tm);
+	return make2digit(day()) + "/" + make2digit(month()) + "/" + String(year());
 }
