@@ -4,6 +4,7 @@
 #include <Time.h>
 #include <DS1307RTC.h>
 #include "SensorManager.hpp"
+#include "NetworkManager.hpp"
 
 void screenPrinting();
 void overviewPage();
@@ -14,9 +15,11 @@ void getSensorData();
 
 const int rightButtonPin = 4, leftButtonPin = 5, upButtonPin = 6, downButtonPin = 7, selectButtonPin = 8;
 short int screenPage = 0;
+unsigned short updateFeedInterval = 5000;
 
 LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
 SensorManager sensorManager;
+NetworkManager networkManager;
 
 float temperature, altitude = 405;
 bool rainStatus;
@@ -24,19 +27,35 @@ unsigned long lightLevel;
 tmElements_t tm;
 double pressure;
 
+// timing
+unsigned long prievous = 0;
+
 void setup() {
 	lcd.print("LOADING");
 
 	lcd.begin(20, 4);
 	sensorManager.init();
 	initButtons();
+	Serial.begin(9600);
 }
 
 void loop() {
 	getSensorData();
 	screenPrinting();
 
-	delay(250);
+	if(networkManager.isConnected())
+	{
+		unsigned long currentMillis = millis();
+		if(currentMillis > prievous + updateFeedInterval) {
+			networkManager.updateFeed("field1", String(temperature));
+			networkManager.updateFeed("field3", String(pressure));
+			networkManager.updateFeed("field4", String(lightLevel));
+
+			prievous = currentMillis;
+		}
+	}
+
+	delay(500);
 }
 
 void screenPrinting()
@@ -54,6 +73,19 @@ void screenPrinting()
 			overviewPage();
 		break;
 		case 1:
+			lcd.print("Status Wi-Fi:");
+			lcd.setCursor(0, 1);
+			if(!networkManager.isConnected()) {
+				if(digitalRead(selectButtonPin) == LOW) {
+					lcd.print("Laczenie...");
+					lcd.print(networkManager.wifiConnect("Livebox-C28B", "lubieplacki11"));
+					delay(10000);
+				}
+				else
+					lcd.print("Brak polaczenia.");
+			}
+			else
+				lcd.print("Polaczono z siecia!");
 
 		break;
 		case 2:
@@ -69,7 +101,9 @@ void overviewPage()
 	lcd.print(getTime(tm));
 
 	lcd.setCursor(0,1);
+	lcd.print("Temp: ");
 	lcd.print(temperature);
+	lcd.print("C");
 
 	lcd.setCursor(0, 2);
 	lcd.print("Swiatlo: ");
