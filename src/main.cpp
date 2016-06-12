@@ -5,6 +5,7 @@
 #include <DS1307RTC.h>
 #include "SensorManager.hpp"
 #include "NetworkManager.hpp"
+#include "EEPROM_BigData.hpp"
 
 void screenPrinting();
 void overviewPage();
@@ -21,7 +22,8 @@ LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
 SensorManager sensorManager;
 NetworkManager networkManager;
 
-float temperature, altitude = 405;
+float temperature;
+unsigned short altitude;
 bool rainStatus;
 unsigned long lightLevel;
 tmElements_t tm;
@@ -37,6 +39,8 @@ void setup() {
 	sensorManager.init();
 	initButtons();
 	Serial.begin(9600);
+
+	EEPROM_readAnything(0, altitude);
 }
 
 void loop() {
@@ -123,12 +127,17 @@ void altitudeSet()
 	if(digitalRead(downButtonPin)==LOW)
 		altitude -= 10;
 
+	if(digitalRead(selectButtonPin) == LOW)
+		EEPROM_writeAnything(0, altitude);
+
 	lcd.setCursor(0,0);
 	lcd.print("Ustaw wysokosc");
 	lcd.setCursor(0,1);
 	lcd.print("nad poziomem morza");
 	lcd.setCursor(0,2);
 	lcd.print(altitude);
+	lcd.setCursor(0, 3);
+	lcd.print("SELECT - zapisz");
 }
 
 String getTime(tmElements_t tm)
