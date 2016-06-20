@@ -9,6 +9,8 @@ public:
 	bool updateFeed(float temperature, float rain, double pressure, unsigned long lightLevel);
 
 	bool isConnected();
+
+	String sendCommand(String& command, const unsigned int timeout);
 private:
 	SoftwareSerial esp = SoftwareSerial(9, 10);
 

@@ -41,12 +41,34 @@ bool NetworkManager::updateFeed(float temperature, float rain, double pressure, 
 					+ "&field4=" + String(lightLevel);
 	delay(100);
 
-	esp.println("AT+CIPSTART=\""
-	 			+ protocol + "\",\""
+	sendCommand("AT+CIPSTART=\""
+				+ protocol + "\",\""
 				+ hostname + "\","
-				+ port);
+				+ port, 250);
 
-	esp.println("AT+CIPSEND=" + String(request.length() + 2));
+	sendCommand("AT+CIPSEND=" + String(request.length() + 2), 500);
 	delay(100);
-	esp.println(request);
+	sendCommand(request, 500);
+}
+
+String NetworkManager::sendCommand(String& command, const unsigned int timeout)
+{
+	Serial.println(command);
+
+	String response = "";
+
+    esp.println(command);
+
+    unsigned long int time = millis();
+
+    while((time+timeout) > millis())
+    {
+    	while(esp.available())
+    	{
+    		char c = esp.read();
+    		response += c;
+    	}
+    }
+    Serial.println(response);
+    return response;
 }
