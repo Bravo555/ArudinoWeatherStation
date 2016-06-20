@@ -32,9 +32,13 @@ bool NetworkManager::isConnected()
 	return connected;
 }
 
-bool NetworkManager::updateFeed(String field, String value)
+bool NetworkManager::updateFeed(float temperature, float rain, double pressure, unsigned long lightLevel)
 {
-	String request = "GET /update?api_key=" + apiKey + "&" + field + "=" + value;
+	String request = "GET /update?api_key=" + apiKey
+					+ "&field1=" + String(temperature)
+					+ "&field2=" + String(rain)
+					+ "&field3=" + String(pressure)
+					+ "&field4=" + String(lightLevel);
 	delay(100);
 
 	esp.println("AT+CIPSTART=\""

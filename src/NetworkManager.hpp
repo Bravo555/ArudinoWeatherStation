@@ -6,7 +6,7 @@ public:
 	NetworkManager();
 
 	bool wifiConnect(const String &ssid, const String &password);
-	bool updateFeed(String field, String value);
+	bool updateFeed(float temperature, float rain, double pressure, unsigned long lightLevel);
 
 	bool isConnected();
 private:

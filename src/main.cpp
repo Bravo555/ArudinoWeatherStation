@@ -55,9 +55,7 @@ void loop() {
 	{
 		unsigned long currentMillis = millis();
 		if(currentMillis > prievous + updateFeedInterval) {
-			networkManager.updateFeed("field1", String(temperature));
-			networkManager.updateFeed("field3", String(pressure));
-			networkManager.updateFeed("field4", String(lightLevel));
+			networkManager.updateFeed(temperature, 0, pressure, lightLevel);
 
 			prievous = currentMillis;
 		}
