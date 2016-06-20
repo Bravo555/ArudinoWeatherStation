@@ -3,10 +3,8 @@
 NetworkManager::NetworkManager()
 {
 	esp.begin(9600);
-	esp.println("AT+CIPMUX=1");
 	connected = false;
 
-	channel = "0";
 	protocol = "TCP";
 	hostname = "api.thingspeak.com";
 	port = "80";
@@ -39,12 +37,12 @@ bool NetworkManager::updateFeed(String field, String value)
 	String request = "GET /update?api_key=" + apiKey + "&" + field + "=" + value;
 	delay(100);
 
-	esp.println("AT+CIPSTART=" + channel + ",\""
+	esp.println("AT+CIPSTART=\""
 	 			+ protocol + "\",\""
 				+ hostname + "\","
 				+ port);
 
-	esp.println("AT+CIPSEND=" + channel + "," + String(request.length() + 2));
+	esp.println("AT+CIPSEND=" + String(request.length() + 2));
 	delay(100);
 	esp.println(request);
 }
