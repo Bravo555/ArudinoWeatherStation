@@ -39,21 +39,20 @@ bool NetworkManager::updateFeed(float temperature, float rain, double pressure, 
 					+ "&field2=" + String(rain)
 					+ "&field3=" + String(pressure)
 					+ "&field4=" + String(lightLevel);
-	delay(100);
 
 	sendCommand("AT+CIPSTART=\""
 				+ protocol + "\",\""
 				+ hostname + "\","
-				+ port, 250);
+				+ port, 1000);
 
 	sendCommand("AT+CIPSEND=" + String(request.length() + 2), 500);
-	delay(100);
+	delay(200);
 	sendCommand(request, 500);
 }
 
 String NetworkManager::sendCommand(String& command, const unsigned int timeout)
 {
-	Serial.println(command);
+	// Serial.println(command);
 
 	String response = "";
 
