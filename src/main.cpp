@@ -19,7 +19,7 @@ void getSensorData();
 const int rightButtonPin = 4, leftButtonPin = 5, upButtonPin = 6, downButtonPin = 7, selectButtonPin = 8;
 short int screenPage = 0;
 short int screenPages = 3;
-unsigned short updateFeedInterval = 10000;
+unsigned short updateFeedInterval = 60000;
 
 LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
 SensorManager sensorManager;
